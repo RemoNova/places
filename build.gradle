@@ -1,0 +1,26 @@
+plugins {
+    id "org.springframework.boot" version "1.5.6.RELEASE"
+}
+
+group 'places'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 1.8
+
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/libs-snapshot' }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile("org.springframework.boot:spring-boot-starter-web:1.5.6.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile('org.facebook4j:facebook4j-core:2.4.10')
+}
+
+
