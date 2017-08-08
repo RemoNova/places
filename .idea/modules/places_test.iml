@@ -17,7 +17,7 @@
     <orderEntry type="module" module-name="places_main" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:1.5.6.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-actuator:1.5.6.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.facebook4j:facebook4j-core:1.1.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.facebook4j:facebook4j-core:2.4.10" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter:1.5.6.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-tomcat:1.5.6.RELEASE" level="project" />

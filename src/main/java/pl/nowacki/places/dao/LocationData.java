@@ -1,32 +1,19 @@
 package pl.nowacki.places.dao;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class LocationData {
 
+    @JsonProperty("name")
     private String name;
-    private Long latitude;
-    private Long longitude;
+    @JsonProperty("latitiude")
+    private Double latitude;
+    @JsonProperty("longitiude")
+    private Double longitude;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public LocationData(String name, Double latitude, Double longitude) {
         this.name = name;
-    }
-
-    public Long getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Long latitude) {
         this.latitude = latitude;
-    }
-
-    public Long getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Long longitude) {
         this.longitude = longitude;
     }
 }
