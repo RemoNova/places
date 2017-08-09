@@ -1,14 +1,12 @@
 package pl.nowacki.places.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.RuntimeJsonMappingException;
 import facebook4j.*;
 import org.springframework.stereotype.Service;
 import pl.nowacki.places.dao.LocationData;
 import pl.nowacki.places.execptions.FacebookConnectionException;
 import pl.nowacki.places.execptions.PlaceNotFoundException;
+import pl.nowacki.places.utils.JsonConverter;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,14 +68,6 @@ public class PlacesService {
     }
 
     private String convertResponseToJson(List<LocationData> locations) {
-        return convertToJson(locations.size() == 1 ? locations.get(0) : locations);
-    }
-
-    private static String convertToJson(Object data) {
-        try {
-            return new ObjectMapper().writeValueAsString(data);
-        } catch (IOException e) {
-            throw new RuntimeJsonMappingException("Failed to convert response to JSON");
-        }
+        return JsonConverter.convertToJson(locations.size() == 1 ? locations.get(0) : locations);
     }
 }

@@ -10,6 +10,11 @@ apply plugin: 'io.spring.dependency-management'
 
 sourceCompatibility = 1.8
 
+jar{
+    manifest {
+        attributes 'Main-Class': 'pl.nowacki.places.Application'
+    }
+}
 
 repositories {
     mavenCentral()
@@ -17,10 +22,11 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile('org.spockframework:spock-core:1.0-groovy-2.4')
     compile("org.springframework.boot:spring-boot-starter-web:1.5.6.RELEASE")
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile('org.facebook4j:facebook4j-core:2.4.10')
+    compile('org.codehaus.groovy:groovy-all:2.4.1')
 }
 
 
