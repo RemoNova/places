@@ -10,7 +10,7 @@ public class JsonConverter {
         try {
             return new ObjectMapper().writeValueAsString(o);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Failed to convert response to JSON", e);
+            throw new RuntimeException("Failed to convert object to JSON", e);
         }
     }
 }

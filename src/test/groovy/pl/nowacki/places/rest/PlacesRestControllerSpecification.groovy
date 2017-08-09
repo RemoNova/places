@@ -59,10 +59,8 @@ class PlacesRestControllerSpecification extends Specification {
 
         then:
         assert isList(jsonResult)
-        def placeLocationList = []
-        placeLocationList << new LocationData(name1, latitude, longitude)
-        placeLocationList << new LocationData(name2, latitude, longitude)
-        jsonResult == JsonConverter.convertToJson(placeLocationList)
+        jsonResult == JsonConverter.convertToJson([new LocationData(name1, latitude, longitude),
+                                                   new LocationData(name2, latitude, longitude)])
     }
 
     def "Should filter result if there is incorrect country and city"() {
@@ -100,10 +98,10 @@ class PlacesRestControllerSpecification extends Specification {
         thrown(FacebookConnectionException)
     }
 
-    def isList(String json) {
+    def isList(String jsonResult) {
         char firstChar = '['
         char lastChar = ']'
-        json.charAt(0) == firstChar && json.charAt(json.length() - 1) == lastChar
+        jsonResult.charAt(0) == firstChar && jsonResult.charAt(jsonResult.length() - 1) == lastChar
     }
 
     def getMockedResult(jsonInput) {
