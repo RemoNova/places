@@ -19,12 +19,12 @@ class PlacesRestControllerSpecification extends Specification {
 
     def country = 'Poland'
     def city = 'Poznan'
-    def place = 'Egnyte'
+    def place = 'Egnyte Poland'
     def latitude = 52.404167557908
     def longitude = 16.940044275923
     def emptyListJson = '[]'
     def placeTemplate = '{"name":%s,"location":{"zip":"00-000","country":"%s",' +
-            '"city":"%s","street":"Kujawska","latitude":%s,"longitude":%s},"id":"1"}'
+            '"city":"%s","street":"Mostowa","latitude":%s,"longitude":%s},"id":"1"}'
     def singlePlaceTemplate = '{"data":[' + placeTemplate + ']}'
     def placesListTemplate = '{"data":[' + placeTemplate + ', ' + placeTemplate + ']}'
     Facebook facebookMock = Mock(Facebook)
@@ -35,7 +35,7 @@ class PlacesRestControllerSpecification extends Specification {
 
     def "Should return single place as json"() {
         given:
-        def name = 'Egnyte'
+        def name = 'Test Place'
         facebookMock.searchPlaces(_, _) >> getMockedResult(generateSinglePlaceAsJson(name, latitude, longitude))
 
         when:
@@ -49,8 +49,8 @@ class PlacesRestControllerSpecification extends Specification {
 
     def "Should return list of places when more than one result found"() {
         given:
-        def name1 = 'name1'
-        def name2 = 'name2'
+        def name1 = 'Test Name'
+        def name2 = 'Test Name'
         facebookMock.searchPlaces(_, _) >> getMockedResult(generatePlacesListAsJson(name1, name2, latitude,
                 longitude))
 
@@ -63,7 +63,7 @@ class PlacesRestControllerSpecification extends Specification {
                                                    new LocationData(name2, latitude, longitude)])
     }
 
-    def "Should filter result if there is incorrect country and city"() {
+    def "Should filter result if there is incorrect city in response"() {
         given:
         facebookMock.searchPlaces(_, _) >> getMockedResult(generateSinglePlaceAsJson(place, latitude, longitude))
 

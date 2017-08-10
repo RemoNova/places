@@ -40,7 +40,7 @@ public class PlacesService {
 
     private ResponseList<Place> getPlaces(String country, String city, String name,
                                           Facebook facebook) throws FacebookException {
-        return facebook.searchPlaces(country + " " + city + " " + name, getReadingParams());
+        return facebook.searchPlaces(String.format("%s %s %s",country, city, name), getReadingParams());
     }
 
     private List<Place> filterResponse(ResponseList<Place> places, String country, String city) {
