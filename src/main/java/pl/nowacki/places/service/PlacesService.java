@@ -2,7 +2,7 @@ package pl.nowacki.places.service;
 
 import facebook4j.*;
 import org.springframework.stereotype.Service;
-import pl.nowacki.places.dao.LocationData;
+import pl.nowacki.places.data.LocationData;
 import pl.nowacki.places.execptions.FacebookConnectionException;
 import pl.nowacki.places.execptions.PlaceNotFoundException;
 import pl.nowacki.places.utils.JsonConverter;
@@ -25,7 +25,6 @@ public class PlacesService {
         ResponseList<Place> places;
         try {
             places = getPlaces(country, city, name, facebook);
-
             if (places.size() == 0) {
                 throw new PlaceNotFoundException();
             } else {
@@ -35,7 +34,6 @@ public class PlacesService {
             e.printStackTrace();
             throw new FacebookConnectionException();
         }
-
     }
 
     private ResponseList<Place> getPlaces(String country, String city, String name,
@@ -44,8 +42,7 @@ public class PlacesService {
     }
 
     private List<Place> filterResponse(ResponseList<Place> places, String country, String city) {
-        return places.stream().parallel().filter(place -> isValidPlace(country, city, place))
-                .collect(Collectors.toList());
+        return places.stream().filter(place -> isValidPlace(country, city, place)).collect(Collectors.toList());
     }
 
     private boolean isValidPlace(String country, String city, Place place) {
@@ -54,9 +51,7 @@ public class PlacesService {
     }
 
     private String convertResponse(List<Place> places) {
-
-        return convertResponseToJson(places.stream().
-                parallel().map(this::getLocationData).collect(Collectors.toList()));
+        return convertResponseToJson(places.stream().map(this::getLocationData).collect(Collectors.toList()));
     }
 
     private LocationData getLocationData(Place place) {

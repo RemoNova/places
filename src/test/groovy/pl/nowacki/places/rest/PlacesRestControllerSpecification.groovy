@@ -7,7 +7,7 @@ import facebook4j.internal.json.PlaceJSONImpl
 import facebook4j.internal.json.ResponseListImpl
 import facebook4j.internal.org.json.JSONArray
 import facebook4j.internal.org.json.JSONObject
-import pl.nowacki.places.dao.LocationData
+import pl.nowacki.places.data.LocationData
 import pl.nowacki.places.execptions.FacebookConnectionException
 import pl.nowacki.places.execptions.PlaceNotFoundException
 import pl.nowacki.places.service.PlacesService

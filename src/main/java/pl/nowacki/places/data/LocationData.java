@@ -1,4 +1,4 @@
-package pl.nowacki.places.dao;
+package pl.nowacki.places.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
