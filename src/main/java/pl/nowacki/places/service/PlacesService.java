@@ -17,7 +17,7 @@ public class PlacesService {
     private static final String LOCATION = "location";
     private Facebook facebook;
 
-    public PlacesService(Facebook facebook){
+    public PlacesService(Facebook facebook) {
         this.facebook = facebook;
     }
 
@@ -38,7 +38,7 @@ public class PlacesService {
 
     private ResponseList<Place> getPlaces(String country, String city, String name,
                                           Facebook facebook) throws FacebookException {
-        return facebook.searchPlaces(String.format("%s %s %s",country, city, name), getReadingParams());
+        return facebook.searchPlaces(String.format("%s %s %s", country, city, name), getReadingParams());
     }
 
     private List<Place> filterResponse(ResponseList<Place> places, String country, String city) {
@@ -46,8 +46,17 @@ public class PlacesService {
     }
 
     private boolean isValidPlace(String country, String city, Place place) {
-        return place.getLocation().getCountry().equalsIgnoreCase(country) &&
-                place.getLocation().getCity().equalsIgnoreCase(city);
+        if (hasAllDetails(place)) {
+            return (place.getLocation().getCountry().equalsIgnoreCase(country) &&
+                    place.getLocation().getCity().equalsIgnoreCase(city));
+        } else {
+            return false;
+        }
+    }
+
+    private boolean hasAllDetails(Place place) {
+        return place.getLocation().getCountry() != null && place.getLocation().getCity() != null
+                && place.getLocation().getLatitude() != null & place.getLocation().getLongitude() != null;
     }
 
     private String convertResponse(List<Place> places) {
@@ -63,6 +72,8 @@ public class PlacesService {
     }
 
     private String convertResponseToJson(List<LocationData> locations) {
+        if (locations.size() == 0)
+            throw new PlaceNotFoundException();
         return JsonConverter.convertToJson(locations.size() == 1 ? locations.get(0) : locations);
     }
 }

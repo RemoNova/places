@@ -19,7 +19,7 @@ class PlacesRestControllerSpecification extends Specification {
 
     def country = 'Poland'
     def city = 'Poznan'
-    def place = 'Egnyte Poland'
+    def name = 'Egnyte Poland'
     def latitude = 52.404167557908
     def longitude = 16.940044275923
     def emptyListJson = '[]'
@@ -39,7 +39,7 @@ class PlacesRestControllerSpecification extends Specification {
         facebookMock.searchPlaces(_, _) >> getMockedResult(generateSinglePlaceAsJson(name, latitude, longitude))
 
         when:
-        def jsonResult = placesRestController.getPlaces(country, city, place)
+        def jsonResult = placesRestController.getPlaces(country, city, this.name)
 
         then:
         noExceptionThrown()
@@ -55,7 +55,7 @@ class PlacesRestControllerSpecification extends Specification {
                 longitude))
 
         when:
-        def jsonResult = placesRestController.getPlaces(country, city, place)
+        def jsonResult = placesRestController.getPlaces(country, city, name)
 
         then:
         assert isList(jsonResult)
@@ -65,14 +65,26 @@ class PlacesRestControllerSpecification extends Specification {
 
     def "Should filter result if there is incorrect city in response"() {
         given:
-        facebookMock.searchPlaces(_, _) >> getMockedResult(generateSinglePlaceAsJson(place, latitude, longitude))
+        facebookMock.searchPlaces(_, _) >> getMockedResult(generateSinglePlaceAsJson(name, latitude, longitude))
 
         when:
-        def jsonResult = placesRestController.getPlaces(country, 'bydgoszcz', place)
+        placesRestController.getPlaces(country, 'bydgoszcz', name)
 
         then:
-        noExceptionThrown()
-        jsonResult == emptyListJson
+        thrown(PlaceNotFoundException)
+    }
+
+    def "Should throw PlaceNotFoundException when no correct place found"() {
+        given:
+        facebookMock.searchPlaces(_, _) >> getMockedResult(
+                generateSingleIncorrectPlaceAsJson("incorrect_place", latitude, longitude)
+        )
+
+        when:
+        placesRestController.getPlaces(country, city, name)
+
+        then:
+        thrown(PlaceNotFoundException)
     }
 
     def "Should throw PlaceNotFoundException when no results"() {
@@ -81,7 +93,7 @@ class PlacesRestControllerSpecification extends Specification {
         facebookMock.searchPlaces(_, _) >> getMockedResult(input)
 
         when:
-        placesRestController.getPlaces(country, city, place)
+        placesRestController.getPlaces(country, city, name)
 
         then:
         thrown(PlaceNotFoundException)
@@ -92,7 +104,7 @@ class PlacesRestControllerSpecification extends Specification {
         facebookMock.searchPlaces(_, _) >> { throw new FacebookConnectionException() }
 
         when:
-        placesRestController.getPlaces(country, city, place)
+        placesRestController.getPlaces(country, city, name)
 
         then:
         thrown(FacebookConnectionException)
@@ -122,5 +134,9 @@ class PlacesRestControllerSpecification extends Specification {
     def generatePlacesListAsJson(name1, name2, latitude, longitude) {
         String.format(placesListTemplate, name1, country, city, latitude, longitude,
                 name2, country, city, latitude, longitude)
+    }
+
+    def generateSingleIncorrectPlaceAsJson(name, latitude, longitude) {
+        String.format(singlePlaceTemplate, name, null, null, latitude, longitude)
     }
 }
